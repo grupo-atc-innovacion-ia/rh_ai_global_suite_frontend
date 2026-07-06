@@ -1,0 +1,435 @@
+/* ── Layout base (mismo patrón que dashboard) ── */
+.config-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 30px;
+  background-color: #f5f7fa;
+  box-sizing: border-box;
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-collapsed .main-content {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+}
+
+/* ── Header ── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon-box {
+  width: 46px;
+  height: 46px;
+  background: #141414;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icon-box mat-icon {
+  color: #ffc700;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.page-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+/* ── Tabs ── */
+.config-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e8e8e8;
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: #8c8c8c;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.2s ease;
+}
+
+.tab-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.tab-btn:hover {
+  color: #1f1f1f;
+  background-color: #f0f0f0;
+}
+
+.tab-btn.active {
+  color: #1f1f1f;
+  border-bottom-color: #ffc700;
+  font-weight: 700;
+}
+
+/* ── Sección contenido ── */
+.config-section {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 28px;
+}
+
+.section-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f1f1f;
+  margin: 0 0 4px 0;
+}
+
+.section-desc {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+/* ── Botón primario ── */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #ffc700;
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-primary:hover {
+  background-color: #e6b300;
+  box-shadow: 0 4px 12px rgba(255, 199, 0, 0.35);
+}
+
+/* ── Tabla de usuarios ── */
+.table-container {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.users-table thead tr {
+  background-color: #fafafa;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.users-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #595959;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.users-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  color: #262626;
+  vertical-align: middle;
+}
+
+.placeholder-row td {
+  opacity: 0.45;
+}
+
+/* ── User cell ── */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-circle {
+  width: 34px;
+  height: 34px;
+  background-color: #141414;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  color: #ffc700;
+  flex-shrink: 0;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-administrador-general {
+  background-color: #141414;
+  color: #ffc700;
+}
+
+.badge-administrador-unidad {
+  background-color: #ffc700;
+  color: #141414;
+}
+
+.badge-administrador-sucursal {
+  background-color: #ffc8004d;
+  color: #141414;
+}
+
+.badge-active {
+  background-color: #f6ffed;
+  color: #389e0d;
+  border: 1px solid #b7eb8f;
+}
+
+.badge-inactive {
+  background-color: #fff2f0;
+  color: #cf1322;
+  border: 1px solid #ffa39e;
+}
+
+/* ── Botones de acción en tabla ── */
+.actions-cell {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #595959;
+  transition: all 0.2s ease;
+}
+
+.btn-icon mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.btn-icon:hover {
+  background-color: #f5f5f5;
+  border-color: #d9d9d9;
+  color: #1f1f1f;
+}
+
+.btn-icon.btn-danger:hover {
+  background-color: #fff2f0;
+  border-color: #ffa39e;
+  color: #cf1322;
+}
+
+/* ── Empty state ── */
+.empty-hint-row td {
+  border-bottom: none;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  color: #bfbfbf;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #bfbfbf;
+}
+
+.empty-state strong {
+  color: #8c8c8c;
+}
+
+/* ── Grid de permisos ── */
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.perm-module {
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.perm-module-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background-color: #141414;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.perm-module-header mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #ffc700;
+}
+
+.perm-list {
+  list-style: none;
+  margin: 0;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.perm-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #434343;
+}
+
+.perm-icon {
+  font-size: 15px !important;
+  width: 15px !important;
+  height: 15px !important;
+  color: #52c41a;
+  flex-shrink: 0;
+}
+
+/* ── Acciones Select (listbox) ── */
+.col-acciones {
+  text-align: center;
+}
+
+.acciones-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 28px 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #595959;
+  background: #fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8c8c'/%3E%3C/svg%3E") no-repeat right 10px center;
+  cursor: pointer;
+  min-width: 150px;
+  transition: border-color 0.2s;
+}
+
+.acciones-select:focus {
+  outline: none;
+  border-color: #ffc700;
+}
+
+.acciones-select:hover {
+  border-color: #bfbfbf;
+}
+
+/* ── Row inactiva ── */
+.row-inactiva {
+  opacity: 0.5;
+}
+
+.cell-nombre {
+  font-weight: 500;
+}
+
+.cell-email {
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
+.username-text {
+  font-weight: 600;
+  color: #1f1f1f;
+}

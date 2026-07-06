@@ -1,0 +1,132 @@
+.login-container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 48px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.login-brand {
+  margin-bottom: 32px;
+}
+
+.login-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.login-title {
+  color: #141414;
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+}
+
+.login-subtitle {
+  color: #8c8c8c;
+  font-size: 14px;
+  margin: 0;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f1f;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 14px 14px 42px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafafa;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ffc700;
+  box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.15);
+  background: #ffffff;
+}
+
+.form-input::placeholder {
+  color: #bfbfbf;
+}
+
+.error-box {
+  color: #e53935;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.btn-login {
+  width: 100%;
+  background: #141414;
+  color: #ffc700;
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 8px;
+}
+
+.btn-login:hover {
+  background: #2a2a2a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.login-footer {
+  margin: 28px 0 0 0;
+  font-size: 11px;
+  color: #bfbfbf;
+}

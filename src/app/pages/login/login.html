@@ -1,0 +1,49 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-brand">
+      <img src="/images/grupo-atc-logo-negro.png" alt="Grupo ATC" class="login-logo">
+      <h1 class="login-title">RH Global Suite</h1>
+      <p class="login-subtitle">Gestión de Reclutamiento</p>
+    </div>
+
+    <form (ngSubmit)="ejecutarLogin()" class="login-form">
+      <div class="form-group">
+        <label class="form-label">Usuario</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            name="username"
+            [(ngModel)]="usernameInput"
+            required
+            class="form-input"
+            placeholder="Ingresa tu usuario">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="passwordInput"
+            required
+            class="form-input"
+            placeholder="Ingresa tu contraseña">
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-box">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-login">
+        Ingresar
+      </button>
+    </form>
+
+    <p class="login-footer">© 2026 Grupo ATC — Todos los derechos reservados</p>
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="dashboard-layout" [ngClass]="{ 'sidebar-collapsed': sidebarColapsado }">
+
+  <app-sidebar
+    [colapsado]="sidebarColapsado"
+    [usuario]="usuarioActual"
+    (alCambiarToggle)="toggleSidebar()"
+    (alCerrarSesion)="cerrarSesion()">
+  </app-sidebar>
+
+  <main class="main-content">
+
+    <header class="content-header">
+      <div class="header-title-area">
+        <img src="/images/grupo-atc-logo-negro.png" alt="Grupo ATC" class="grupo-atc-logo-negro">
+        <div class="header-text-block">
+          <h1 class="main-title">RH Global Suite</h1>
+          <p class="main-subtitle">Seguimiento del proceso de selección de candidatos</p>
+        </div>
+      </div>
+
+      <div class="header-filters">
+        <div class="filter-group">
+
+          <!-- Filtro: Unidad de Negocio -->
+          <div class="custom-select-wrapper">
+            <mat-icon class="select-prefix-icon">business</mat-icon>
+            <select class="custom-select" [(ngModel)]="UnidadFiltroId" name="UnidadFiltro" (change)="onUnidadFiltroChange()">
+              <option [ngValue]="null">Todas las Unidades</option>
+              <option *ngFor="let unidad of listaUnidades" [ngValue]="unidad.id">
+                {{ unidad.unidad_negocio_nombre }} - {{ unidad.nombre_sucursal }}
+              </option>
+            </select>
+            <mat-icon class="select-arrow">expand_more</mat-icon>
+          </div>
+
+          <!-- Filtro: Vacante -->
+          <div class="custom-select-wrapper">
+            <mat-icon class="select-prefix-icon">work_outline</mat-icon>
+            <select class="custom-select" [ngModel]="vacanteSeleccionadaId" (ngModelChange)="onVacanteChange($event)">
+              <option [ngValue]="null">Todas las vacantes</option>
+              <option *ngFor="let vacante of vacantesFiltradas" [ngValue]="vacante.id">
+                {{ vacante.titulo }} — {{ vacante.sucursal_nombre }}
+              </option>
+            </select>
+            <mat-icon class="select-arrow">expand_more</mat-icon>
+          </div>
+
+    
+        </div>
+      </div>
+    </header>
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-bar">
+      <span class="search-label">Búsqueda de candidato</span>
+      <div class="search-controls">
+        <div class="custom-select-wrapper search-select-wrapper">
+          <select class="custom-select" [(ngModel)]="busquedaCampo">
+            <option value="nombre">Nombre Candidato</option>
+            
+          </select>
+        </div>
+        <input
+          type="text"
+          class="search-input"
+          [(ngModel)]="busquedaTexto"
+          placeholder="Escribe el nombre..."
+          (keydown.enter)="buscar()">
+        <button class="btn-buscar" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button class="btn-limpiar" *ngIf="busquedaActiva" (click)="limpiarBusqueda()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- ================================================================
+         KANBAN BOARD
+    ================================================================ -->
+    <div class="kanban-wrapper">
+      <div class="kanban-board" cdkDropListGroup>
+
+        @for (columna of columnasKanban; track columna.id; let i = $index) {
+          <div class="kanban-column">
+
+            <div class="column-header" [ngClass]="columna.clasePaso">
+              <span class="step-tag">Paso {{ i + 1 }}</span>
+              <div class="title-with-icon">
+                <h3>{{ columna.titulo }}</h3>
+                <mat-icon class="header-icon" [style.color]="columna.clasePaso === 'step-4' ? '#000000' : '#ffffff'">
+                  {{ columna.icono }}
+                </mat-icon>
+              </div>
+              <div class="column-meta">
+                <span>{{ candidatosFiltrados(columna).length }} {{ candidatosFiltrados(columna).length === 1 ? 'candidato' : 'candidatos' }}</span>
+              </div>
+            </div>
+
+            <div class="column-filter-select">
+              <select (change)="onFiltroColumna(columna.id, $event)">
+                <option value="">Todos los candidatos</option>
+                <option *ngFor="let opt of filtrosPorFase(columna.id)" [value]="opt.clave">{{ opt.label }}</option>
+              </select>
+            </div>
+
+            <div class="cards-container"
+                 [id]="columna.id"
+                 cdkDropList
+                 [cdkDropListData]="columna.candidatos"
+                 [cdkDropListConnectedTo]="listaDeIds"
+                 (cdkDropListDropped)="drop($event)">
+
+              @for (candidato of candidatosFiltrados(columna); track candidato.id) {
+                <div class="candidate-card" cdkDrag>
+                  <div class="card-top">
+                    <div class="avatar-circle">{{ candidato.iniciales }}</div>
+                    <div class="candidate-info">
+                      <div class="name-row">
+                        <h4>{{ candidato.nombre }}</h4>
+                        <!-- Botón 3 puntos -->
+                        <div class="more-menu-wrapper">
+                          <mat-icon class="more-icon" (click)="toggleMenu($event, candidato.id)">more_vert</mat-icon>
+                          <div class="dropdown-menu" *ngIf="menuAbiertoCandidatoId === candidato.id">
+                            <button class="dropdown-item" (click)="verMas($event, candidato)">
+                              <mat-icon>visibility</mat-icon> Ver más
+                            </button>
+                            <button class="dropdown-item" (click)="abrirActualizar($event, candidato)">
+                              <mat-icon>refresh</mat-icon> Actualizar
+                            </button>
+                            <button class="dropdown-item" (click)="compartir($event, candidato)">
+                              <mat-icon>share</mat-icon> Compartir
+                            </button>
+                            <button class="dropdown-item danger" (click)="eliminarCandidato($event, candidato.id)">
+                              <mat-icon>delete</mat-icon> Eliminar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="role">{{ candidato.puesto }}</p>
+                      <p class="loc"><mat-icon class="inline-icon">place</mat-icon> {{ candidato.ubicacion }}</p>
+                      <p class="salary">{{ candidato.sueldo }}</p>
+                    </div>
+                  </div>
+                  <div class="card-scores">
+                    <div class="score-item">Score AI: <strong>{{ candidato.scoreAi }}%</strong></div>
+                    <div class="score-item">Score Human: <strong>{{ candidato.scoreHuman }}%</strong></div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================================================================
+       PANEL LATERAL DE DETALLE
+  ================================================================ -->
+  <app-panel-detalle-candidato
+    [candidato]="candidatoDetalle"
+    [vacantesMap]="vacantesMap"
+    [abierto]="panelAbierto"
+    (cerrar)="cerrarPanel()"
+    (scoreActualizado)="onScoreActualizado($event)">
+  </app-panel-detalle-candidato>
+
+</div>

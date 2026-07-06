@@ -1,0 +1,352 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 30px 30px 280px;
+  background-color: #f5f7fa;
+  box-sizing: border-box;
+  min-height: 100vh;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-collapsed .main-content {
+  padding-left: 100px;
+}
+
+/* =====================================================================
+   HEADER
+===================================================================== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon-box {
+  width: 46px;
+  height: 46px;
+  background: #141414;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icon-box mat-icon {
+  color: #ffc700;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.page-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.btn-refresh {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #595959;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-refresh mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-refresh:hover {
+  background: #f5f5f5;
+  border-color: #ffc700;
+}
+
+/* =====================================================================
+   TABLE CARD
+===================================================================== */
+.table-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.vacantes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.vacantes-table thead tr {
+  background: #fafafa;
+}
+
+.vacantes-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #8c8c8c;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.vacantes-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  color: #1f1f1f;
+  vertical-align: middle;
+}
+
+.vacantes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.vacantes-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.row-inactiva {
+  opacity: 0.55;
+}
+
+.cell-id {
+  font-weight: 600;
+  color: #8c8c8c;
+  font-size: 12px;
+}
+
+.cell-titulo {
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.cell-correo {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #e91e63;
+}
+
+/* =====================================================================
+   BADGES Y BOTONES
+===================================================================== */
+.badge-estatus {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-estatus.activa {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.badge-estatus.inactiva {
+  background: #fef2f2;
+  color: #e53935;
+  border: 1px solid #fecaca;
+}
+
+.btn-copiar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #595959;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-copiar mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.btn-copiar:hover {
+  background: #e8e8e8;
+  border-color: #ffc700;
+  color: #1f1f1f;
+}
+
+.btn-deshabilitar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e53935;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-deshabilitar mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.btn-deshabilitar:hover {
+  background: #fee2e2;
+}
+
+.texto-deshabilitada {
+  font-size: 12px;
+  color: #bfbfbf;
+  font-style: italic;
+}
+
+.col-acciones {
+  text-align: center;
+}
+
+/* =====================================================================
+   SORTABLE HEADERS
+===================================================================== */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+
+.sortable:hover {
+  color: #1f1f1f;
+}
+
+.sort-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+  vertical-align: middle;
+  margin-left: 2px;
+  color: #ffc700;
+}
+
+/* =====================================================================
+   ACCIONES SELECT
+===================================================================== */
+.acciones-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 28px 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #595959;
+  background: #fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8c8c'/%3E%3C/svg%3E") no-repeat right 10px center;
+  cursor: pointer;
+  min-width: 150px;
+  transition: border-color 0.2s;
+}
+
+.acciones-select:focus {
+  outline: none;
+  border-color: #ffc700;
+}
+
+.acciones-select:hover {
+  border-color: #bfbfbf;
+}
+
+/* =====================================================================
+   EMPTY STATE
+===================================================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  color: #bfbfbf;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* =====================================================================
+   BOTÓN ALTA DE VACANTE
+===================================================================== */
+.btn-alta-vacante {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  height: 42px;
+  background: #141414;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffc700;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-alta-vacante mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-alta-vacante:hover {
+  background: #2a2a2a;
+}

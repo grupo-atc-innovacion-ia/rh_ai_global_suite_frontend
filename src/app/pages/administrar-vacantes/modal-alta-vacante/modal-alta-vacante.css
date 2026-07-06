@@ -1,0 +1,209 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 24px 0;
+}
+
+.dialog-header-icon {
+  width: 40px;
+  height: 40px;
+  background: #141414;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dialog-header-icon mat-icon {
+  color: #ffc700;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.dialog-title-block h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.dialog-title-block p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.dialog-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 16px 24px 0;
+}
+
+.dialog-body {
+  padding: 16px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-body mat-form-field {
+  width: 100%;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8c8c8c;
+  margin: 12px 0 4px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 8px;
+}
+
+.btn-cancel {
+  padding: 0 20px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #595959;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #f5f5f5;
+}
+
+.btn-guardar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 22px;
+  height: 40px;
+  background: #141414;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffc700;
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background: #2a2a2a;
+}
+
+.btn-guardar:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-guardar mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Tags de no negociables */
+.tags-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tags-input-row input {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.tags-input-row input:focus {
+  border-color: #ffc700;
+}
+
+.btn-add-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #141414;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-add-tag mat-icon {
+  color: #ffc700;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 20px;
+}
+
+.tag-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  padding: 4px 10px 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1f1f1f;
+}
+
+.tag-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: #bfbfbf;
+}
+
+.tag-chip button mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.tag-chip button:hover mat-icon {
+  color: #e53935;
+}
+
+.tags-empty {
+  font-size: 12px;
+  color: #bfbfbf;
+  font-style: italic;
+}

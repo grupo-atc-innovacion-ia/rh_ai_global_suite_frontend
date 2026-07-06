@@ -1,0 +1,84 @@
+<div class="dialog-header">
+  <div class="dialog-header-icon"><mat-icon>work_outline</mat-icon></div>
+  <div class="dialog-title-block">
+    <h2>Nueva Vacante</h2>
+    <p>Ingresa los datos para registrar la vacante</p>
+  </div>
+</div>
+
+<div class="dialog-divider"></div>
+
+<div class="dialog-body">
+  <p class="section-label">Información general</p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Título de la Vacante</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">badge</mat-icon>
+    <input matInput [(ngModel)]="nuevaVacante.titulo" placeholder="Ej. Gerente LEAN" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Unidad de Negocio - Sucursal</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">business</mat-icon>
+    <mat-select [(ngModel)]="nuevaVacante.sucursal" required>
+      <mat-option *ngFor="let suc of listaSucursales" [value]="suc.id">{{ suc.unidad_negocio_nombre }} - {{ suc.nombre_sucursal || suc.nombre }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Bolsa de Trabajo</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">public</mat-icon>
+    <mat-select [(ngModel)]="nuevaVacante.bolsa_de_trabajo">
+      <mat-option value="linkedin">LinkedIn</mat-option>
+      <mat-option value="occ">OCC</mat-option>
+      <mat-option value="indeed">Indeed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p class="section-label">Configuración de correo y automatización</p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Asunto exacto del correo entrante</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">mail_outline</mat-icon>
+    <input matInput [(ngModel)]="nuevaVacante.titulo_exacto_correo" placeholder="Ej. [Candidato] solicitud para [Puesto]">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción de la Vacante</mat-label>
+    <textarea matInput [(ngModel)]="nuevaVacante.descripcion_vacante" rows="3" placeholder="Pega aquí la descripción del puesto"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Prompt Calificador IA</mat-label>
+    <textarea matInput [(ngModel)]="nuevaVacante.prompt_vacante" rows="3" placeholder="Instrucciones para que la IA evalúe al candidato"></textarea>
+  </mat-form-field>
+
+  <!-- No Negociables / Requisitos -->
+  <p class="section-label">No Negociables / Requisitos</p>
+  <div class="tags-input-row">
+    <input
+      type="text"
+      [(ngModel)]="tagInput"
+      placeholder="Ej. Inglés Avanzado, 5+ años experiencia..."
+      (keydown.enter)="agregarTag($event)">
+    <button class="btn-add-tag" type="button" (click)="agregarTag()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="tags-list">
+    <span *ngFor="let tag of nuevaVacante.no_negociables_requisitos; let i = index" class="tag-chip">
+      {{ tag }}
+      <button type="button" (click)="quitarTag(i)"><mat-icon>close</mat-icon></button>
+    </span>
+    <span *ngIf="nuevaVacante.no_negociables_requisitos.length === 0" class="tags-empty">
+      Sin requisitos añadidos aún
+    </span>
+  </div>
+</div>
+
+<div class="dialog-actions">
+  <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+  <button class="btn-guardar" (click)="guardar()" [disabled]="!formValido()">
+    <mat-icon>save</mat-icon> Guardar Vacante
+  </button>
+</div>

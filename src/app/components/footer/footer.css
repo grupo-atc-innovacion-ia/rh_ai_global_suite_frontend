@@ -1,0 +1,48 @@
+.site-footer {
+  width: 100%;
+  background-color: #232f3e;
+  color: #ffffff;
+  padding: 10px 30px 10px 280px;
+  font-family: sans-serif;
+  font-size: 13px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  position: relative;
+  box-sizing: border-box;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-footer.footer-login {
+  padding-left: 30px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.company-name {
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.right-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-name {
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.app-version {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,58 @@
+<aside class="sidebar" [class.sidebar-collapsed]="colapsado">
+  <div class="sidebar-logo-container">
+    <div class="sidebar-logo" *ngIf="!colapsado">
+      <img src="/images/grupo-atc-logo-blanco.png" alt="Grupo ATC" class="grupo-atc-logo-blanco">
+        <span class="sidebar-title">RH Global Suite ATC</span>
+    </div>
+    <button class="btn-toggle-sidebar" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <nav class="sidebar-menu">
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="menu-item" title="Dashboard">
+      <mat-icon class="menu-icon">dashboard</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Dashboard</span>
+    </a>
+    <a routerLink="/administrar-vacantes" routerLinkActive="active" class="menu-item" title="Administrar Vacantes">
+      <mat-icon class="menu-icon">fact_check</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Administrar Vacantes</span>
+    </a>
+    <a routerLink="/alertas-kpis" routerLinkActive="active" class="menu-item" title="Alertas KPIs">
+      <mat-icon class="menu-icon">notifications_active</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Alertas KPIs</span>
+    </a>
+    <a routerLink="/reportes" routerLinkActive="active" class="menu-item" title="Reportes">
+      <mat-icon class="menu-icon">insert_chart</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Reportes</span>
+    </a>
+    <a routerLink="/configuracion" routerLinkActive="active" class="menu-item" title="Configuración"
+       *ngIf="usuario?.is_superuser || usuario?.perfil?.rol_sistema === 'admin_general'">
+      <mat-icon class="menu-icon">settings</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Configuración</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+
+    <!-- Bloque usuario — expandido -->
+    <div class="sidebar-user-info" *ngIf="!colapsado">
+      <div class="user-avatar">{{ userInitials }}</div>
+      <div class="user-details">
+        <span class="user-name">{{ nombreUsuario }}</span>
+        <span class="user-role" [ngClass]="getRolClass()">{{ rolUsuario }}</span>
+      </div>
+    </div>
+
+    <!-- Avatar solo cuando está colapsado -->
+    <div class="sidebar-user-collapsed" *ngIf="colapsado" [title]="nombreUsuario">
+      <div class="user-avatar">{{ userInitials }}</div>
+    </div>
+
+    <button (click)="cerrarSesion()" class="btn-logout-sidebar" title="Cerrar Sesión">
+      <mat-icon class="menu-icon">logout</mat-icon>
+      <span class="menu-text" *ngIf="!colapsado">Cerrar Sesión</span>
+    </button>
+
+  </div>
+</aside>

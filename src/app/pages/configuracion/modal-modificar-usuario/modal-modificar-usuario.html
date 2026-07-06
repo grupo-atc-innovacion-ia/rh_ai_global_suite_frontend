@@ -1,0 +1,77 @@
+<div class="dialog-header">
+  <div class="dialog-header-icon"><mat-icon>edit</mat-icon></div>
+  <div class="dialog-title-block">
+    <h2>Modificar Usuario</h2>
+    <p>{{ data.usuario.username }}</p>
+  </div>
+</div>
+
+<div class="dialog-divider"></div>
+
+<div class="dialog-body">
+  <p class="section-label">Datos personales</p>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre(s)</mat-label>
+      <input matInput [(ngModel)]="datos.first_name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput [(ngModel)]="datos.last_name" required>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" [(ngModel)]="datos.email">
+  </mat-form-field>
+
+  <div class="form-row">
+  
+
+    <mat-form-field appearance="outline">
+      <mat-label>Número de Empleado</mat-label>
+      <input matInput [(ngModel)]="datos.numero_empleado">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+    <mat-label>Puesto en Unidad/Sucursal</mat-label>
+    <input matInput [(ngModel)]="datos.puesto_empresa">
+  </mat-form-field>
+  </div>
+
+
+
+  <!-- Cambiar contraseña -->
+  <p class="section-label">Contraseña</p>
+
+  <label class="check-password">
+    <input type="checkbox" [(ngModel)]="cambiarPassword">
+    <span>Cambiar contraseña</span>
+  </label>
+
+  <div class="form-row" *ngIf="cambiarPassword">
+    <mat-form-field appearance="outline">
+      <mat-label>Nueva contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="nuevaPassword">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [class.campo-error]="confirmTocado && !passwordsCoinciden">
+      <mat-label>Confirmar contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="confirmarPassword" (blur)="validarConfirmPassword()">
+    </mat-form-field>
+  </div>
+  <span class="hint-error" *ngIf="cambiarPassword && confirmTocado && !passwordsCoinciden">Las contraseñas no coinciden</span>
+
+  <div class="error-box" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
+
+<div class="dialog-actions">
+  <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+  <button class="btn-guardar" (click)="guardar()" [disabled]="!formValido() || guardando">
+    <mat-icon>save</mat-icon>
+    {{ guardando ? 'Guardando...' : 'Guardar Cambios' }}
+  </button>
+</div>

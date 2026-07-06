@@ -1,0 +1,107 @@
+<div class="dashboard-layout" [ngClass]="{ 'sidebar-collapsed': sidebarColapsado }">
+
+  <app-sidebar
+    [colapsado]="sidebarColapsado"
+    [usuario]="usuarioActual"
+    (alCambiarToggle)="toggleSidebar()"
+    (alCerrarSesion)="cerrarSesion()">
+  </app-sidebar>
+
+  <main class="main-content">
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="header-left">
+        <div class="header-icon-box"><mat-icon>work_outline</mat-icon></div>
+        <div>
+          <h1 class="page-title">Administración de Vacantes</h1>
+          <p class="page-subtitle">Consulta prompts, descripciones y gestiona el estatus de las vacantes</p>
+        </div>
+      </div>
+       <button class="btn-alta-vacante" (click)="altaVacante()">
+            <mat-icon>add_circle_outline</mat-icon>
+            Alta de Vacante
+          </button>
+    </header>
+
+    <!-- Tabla de vacantes -->
+    <div class="table-card">
+      <div class="table-scroll">
+        <table class="vacantes-table">
+          <thead>
+            <tr>
+              <th class="sortable" (click)="ordenarPor('id')">
+                ID
+                <mat-icon class="sort-icon" *ngIf="columnaOrden === 'id'">
+                  {{ direccionOrden === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              </th>
+              <th class="sortable" (click)="ordenarPor('titulo')">
+                Puesto
+                <mat-icon class="sort-icon" *ngIf="columnaOrden === 'titulo'">
+                  {{ direccionOrden === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              </th>
+              <th class="sortable" (click)="ordenarPor('unidad')">
+                Unidad
+                <mat-icon class="sort-icon" *ngIf="columnaOrden === 'unidad'">
+                  {{ direccionOrden === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              </th>
+              <th class="sortable" (click)="ordenarPor('sucursal')">
+                Sucursal
+                <mat-icon class="sort-icon" *ngIf="columnaOrden === 'sucursal'">
+                  {{ direccionOrden === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              </th>
+              <th>Filtro de Correo</th>
+              <th>Descripción</th>
+              <th>Prompt Calificador IA</th>
+              <th>Estatus</th>
+              <th class="col-acciones">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let v of listaPendientes" [class.row-inactiva]="!v.activa">
+              <td class="cell-id">{{ v.id }}</td>
+              <td class="cell-titulo">{{ v.titulo }}</td>
+              <td>{{ v.unidad_negocio_nombre || '—' }}</td>
+              <td>{{ v.sucursal_nombre || '—' }}</td>
+              <td class="cell-correo">{{ v.titulo_exacto_correo || '—' }}</td>
+              <td>
+                <button class="btn-copiar" (click)="copiarDescripcion(v)">
+                  <mat-icon>content_copy</mat-icon> Copiar
+                </button>
+              </td>
+              <td>
+                <button class="btn-copiar" (click)="copiarPrompt(v)">
+                  <mat-icon>content_copy</mat-icon> Copiar
+                </button>
+              </td>
+              <td>
+                <span class="badge-estatus" [class.activa]="v.activa" [class.inactiva]="!v.activa">
+                  {{ v.activa ? 'Activa' : 'Inactiva' }}
+                </span>
+              </td>
+              <td class="col-acciones">
+                <select class="acciones-select" (change)="ejecutarAccion(v, $event)">
+                  <option value="">Seleccionar...</option>
+                  <option value="editar">Editar vacante</option>
+                  <option value="deshabilitar" *ngIf="v.activa">Deshabilitar vacante</option>
+                  <option value="activar" *ngIf="!v.activa">Activar vacante</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="listaPendientes.length === 0">
+        <mat-icon>inbox</mat-icon>
+        <p>No hay vacantes registradas todavía.</p>
+      </div>
+    </div>
+
+  </main>
+</div>

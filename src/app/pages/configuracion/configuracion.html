@@ -1,0 +1,118 @@
+<div class="config-layout" [ngClass]="{ 'sidebar-collapsed': sidebarColapsado }">
+
+  <app-sidebar
+    [colapsado]="sidebarColapsado"
+    [usuario]="usuarioActual"
+    (alCambiarToggle)="toggleSidebar()"
+    (alCerrarSesion)="cerrarSesion()">
+  </app-sidebar>
+
+  <main class="main-content">
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="header-left">
+        <div class="header-icon-box"><mat-icon>settings</mat-icon></div>
+        <div>
+          <h1 class="page-title">Configuración</h1>
+          <p class="page-subtitle">Administración de usuarios y permisos del sistema</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <nav class="config-tabs">
+      <button
+        [hidden]="!esAdminGeneral"
+        class="tab-btn"
+        [class.active]="seccionActiva === 'usuarios'"
+        (click)="irASeccion('usuarios')">
+        <mat-icon>manage_accounts</mat-icon>
+        Usuarios
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="seccionActiva === 'permisos'"
+        (click)="irASeccion('permisos')">
+        <mat-icon>info</mat-icon>
+        Próximamente...
+      </button>
+    </nav>
+
+    <!-- ── SECCIÓN: USUARIOS ── -->
+    <section class="config-section" *ngIf="seccionActiva === 'usuarios'">
+
+      <div class="section-toolbar">
+        <div class="section-info">
+          <h2 class="section-title">Usuarios del Sistema</h2>
+          <p class="section-desc">Gestión de usuarios con acceso a la plataforma.</p>
+        </div>
+        <button class="btn-primary" (click)="agregarNuevoUsuario()">
+          <mat-icon>person_add</mat-icon>
+          Agregar nuevo usuario
+        </button>
+      </div>
+
+      <!-- Tabla de usuarios -->
+      <div class="table-container">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Nombre completo</th>
+              <th>Email</th>
+              <th>Puesto</th>
+              <th>Tipo De Usuario</th>
+              <th>Estado</th>
+              <th class="col-acciones">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of listaUsuarios" [class.row-inactiva]="!u.is_active">
+              <td>
+                <div class="user-cell">
+                  <div class="avatar-circle">{{ getIniciales(u) }}</div>
+                  <span class="username-text">{{ u.username }}</span>
+                </div>
+              </td>
+              <td class="cell-nombre">{{ u.first_name }} {{ u.last_name }}</td>
+              <td class="cell-email">{{ u.email || '—' }}</td>
+              <td>{{ u.perfil?.puesto_empresa || '—' }}</td>
+              <td>
+                <span class="badge" 
+                  [class.badge-administrador-general]="u.is_superuser || u.perfil?.rol_sistema === 'admin_general'" 
+                  [class.badge-administrador-unidad]="u.perfil?.rol_sistema === 'admin_unidad'"
+                  [class.badge-administrador-sucursal]="u.perfil?.rol_sistema === 'admin_sucursal'">
+                  {{ getRolBadge(u) }}
+                </span>
+              </td>
+
+              <td>
+                <span class="badge" [class.badge-active]="u.is_active" [class.badge-inactive]="!u.is_active">
+                  {{ u.is_active ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="col-acciones">
+                <select class="acciones-select" (change)="ejecutarAccionUsuario(u, $event)">
+                  <option value="">Seleccionar...</option>
+                  <option value="modificar_datos">Modificar datos</option>
+                  <option value="modificar_permisos">Modificar permisos</option>
+                  <option value="deshabilitar" *ngIf="u.is_active">Deshabilitar usuario</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="listaUsuarios.length === 0">
+        <mat-icon>group_add</mat-icon>
+        <p>No hay usuarios registrados aún.<br>Usa el botón <strong>"Agregar nuevo usuario"</strong> para comenzar.</p>
+      </div>
+
+    </section>
+
+
+  </main>
+</div>

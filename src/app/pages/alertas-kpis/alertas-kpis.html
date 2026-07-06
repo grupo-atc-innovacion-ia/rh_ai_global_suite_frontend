@@ -1,0 +1,27 @@
+<div class="page-layout" [ngClass]="{ 'sidebar-collapsed': sidebarColapsado }">
+
+  <app-sidebar
+    [colapsado]="sidebarColapsado"
+    [usuario]="usuarioActual"
+    (alCambiarToggle)="toggleSidebar()"
+    (alCerrarSesion)="cerrarSesion()">
+  </app-sidebar>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div class="header-left">
+        <div class="header-icon-box"><mat-icon>notifications_active</mat-icon></div>
+        <div>
+          <h1 class="page-title">Alertas y KPIs</h1>
+          <p class="page-subtitle">Monitoreo de indicadores clave de reclutamiento</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="placeholder-card">
+      <mat-icon class="placeholder-icon">construction</mat-icon>
+      <h2>Próximamente</h2>
+      <p>Esta sección mostrará alertas en tiempo real y KPIs del proceso de selección.</p>
+    </div>
+  </main>
+</div>

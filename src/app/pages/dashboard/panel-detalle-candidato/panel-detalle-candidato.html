@@ -1,0 +1,218 @@
+<div class="detail-overlay" *ngIf="abierto" (click)="cerrarPanel()"></div>
+<aside class="detail-panel" [class.panel-open]="abierto" *ngIf="candidato">
+
+  <!-- Header del panel -->
+  <div class="panel-header">
+    <h2 class="panel-nombre">{{ candidato.nombre }}</h2>
+    <button class="btn-cerrar-panel" (click)="cerrarPanel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="panel-tabs">
+    <button class="panel-tab" [class.active]="tabActiva === 'detalles'" (click)="setTab('detalles')">
+      <mat-icon>info</mat-icon> Detalles
+    </button>
+    <button class="panel-tab" [class.active]="tabActiva === 'documentacion'" (click)="setTab('documentacion')">
+      <mat-icon>folder_open</mat-icon> Documentación
+    </button>
+    <button class="panel-tab" [class.active]="tabActiva === 'whatsapp'" (click)="setTab('whatsapp')">
+      <mat-icon>chat</mat-icon> WhatsApp
+    </button>
+    <button class="panel-tab" [class.active]="tabActiva === 'email'" (click)="setTab('email')">
+      <mat-icon>email</mat-icon> Email
+    </button>
+  </div>
+
+  <!-- Contenido: DETALLES -->
+  <div class="panel-body" *ngIf="tabActiva === 'detalles'">
+    <div class="panel-avatar">
+      <div class="panel-avatar-circle">{{ iniciales }}</div>
+      <p class="panel-puesto">{{ candidato.puesto }}</p>
+      <span class="badge-estado">En proceso</span>
+    </div>
+
+    <div class="panel-datos">
+      <div class="dato-row">
+        <mat-icon class="dato-icon">place</mat-icon>
+        <div>
+          <span class="dato-label">Ubicación</span>
+          <span class="dato-valor">{{ candidato.ubicacion || '—' }}</span>
+        </div>
+      </div>
+      <div class="dato-row">
+        <mat-icon class="dato-icon">attach_money</mat-icon>
+        <div>
+          <span class="dato-label">Salario Esperado</span>
+          <span class="dato-valor">{{ candidato.salario_esperado || candidato.sueldo || '—' }}</span>
+        </div>
+      </div>
+      <div class="dato-row">
+        <mat-icon class="dato-icon">mail_outline</mat-icon>
+        <div>
+          <span class="dato-label">Email</span>
+          <span class="dato-valor">{{ candidato.email || '—' }}</span>
+        </div>
+      </div>
+      <div class="dato-row">
+        <mat-icon class="dato-icon">phone</mat-icon>
+        <div>
+          <span class="dato-label">Teléfono</span>
+          <span class="dato-valor">{{ candidato.telefono || '—' }}</span>
+        </div>
+      </div>
+      <div class="dato-row">
+        <mat-icon class="dato-icon">calendar_today</mat-icon>
+        <div>
+          <span class="dato-label">Fecha de Aplicación</span>
+          <span class="dato-valor">{{ formatearFecha(candidato.fecha_creacion) }}</span>
+        </div>
+      </div>
+      <div class="dato-row">
+        <mat-icon class="dato-icon">work_history</mat-icon>
+        <div>
+          <span class="dato-label">Experiencia</span>
+          <span class="dato-valor">{{ candidato.anos_experiencia || '—' }} años</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tabla No Negociables ─────────────────────────────────── -->
+    <div class="nn-section" *ngIf="filasNoNegociables.length > 0">
+      <h3 class="nn-titulo">No Negociables</h3>
+      <table class="nn-tabla">
+        <thead>
+          <tr>
+            <th>Vacante</th>
+            <th>Candidato</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fila of filasNoNegociables">
+            <td class="nn-vacante">{{ fila.requisito }}</td>
+            <td [class.nn-cumple]="fila.cumple" [class.nn-falta]="!fila.cumple">
+              {{ fila.candidato }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="nn-section nn-empty" *ngIf="filasNoNegociables.length === 0">
+      <mat-icon>info_outline</mat-icon>
+      <span>La vacante no tiene requisitos no negociables definidos.</span>
+    </div>
+
+    <!-- ── Notas ────────────────────────────────────────────────── -->
+    <div class="notas-section">
+      <div class="notas-header">
+        <h3 class="notas-titulo">Notas</h3>
+        <div class="notas-score-badge">
+          <mat-icon>person</mat-icon>
+          <span>Score Human: <strong>{{ candidato.scoreHuman }}%</strong></span>
+        </div>
+      </div>
+
+      <!-- Lista de notas -->
+      <div class="notas-lista" *ngIf="candidato.notas && candidato.notas.length > 0">
+        <div class="nota-card" *ngFor="let nota of candidato.notas"
+             [class.nota-verde]="nota.porcentaje !== null && nota.porcentaje >= 80"
+             [class.nota-amarilla]="nota.porcentaje !== null && nota.porcentaje >= 51 && nota.porcentaje <= 79"
+             [class.nota-roja]="nota.porcentaje !== null && nota.porcentaje >= 1 && nota.porcentaje <= 50"
+             [class.nota-neutral]="nota.porcentaje === null">
+          <div class="nota-contenido">
+            <p class="nota-texto">{{ nota.texto }}</p>
+            <span class="nota-meta">
+              {{ formatearFechaNota(nota.fecha) }}
+              <span *ngIf="nota.porcentaje !== null" class="nota-pct">· {{ nota.porcentaje }}%</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="notas-empty" *ngIf="!candidato.notas || candidato.notas.length === 0">
+        <span>Sin notas aún. Agrega la primera evaluación.</span>
+      </div>
+
+      <!-- Input nueva nota -->
+      <div class="nota-input-row">
+        <input
+          class="nota-input-text"
+          type="text"
+          [(ngModel)]="notaTexto"
+          placeholder="Agregar nota..."
+          (keydown.enter)="agregarNota()">
+        <input
+          class="nota-input-pct"
+          type="number"
+          min="1"
+          max="100"
+          [(ngModel)]="notaPorcentaje"
+          placeholder="%">
+        <button class="btn-enviar-nota" (click)="agregarNota()" [disabled]="!notaTexto.trim()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Contenido: DOCUMENTACIÓN -->
+  <div class="panel-body" *ngIf="tabActiva === 'documentacion'">
+    <div class="docs-section">
+      <h3 class="docs-titulo">Documentos del Candidato</h3>
+
+      <div class="docs-lista">
+        <div class="doc-row" *ngFor="let tipo of tiposDocumento">
+          <!-- Label del documento -->
+          <div class="doc-label">
+            <mat-icon class="doc-icon">description</mat-icon>
+            <span>{{ tipo.label }}</span>
+          </div>
+
+          <!-- Archivo ya subido -->
+          <div class="doc-archivo" *ngIf="archivosSubidos[tipo.clave]">
+            <a class="doc-nombre-link" [href]="archivosSubidos[tipo.clave]!.url" target="_blank" rel="noopener">
+              {{ archivosSubidos[tipo.clave]!.nombre }}
+            </a>
+            <button class="btn-eliminar-doc" (click)="eliminarArchivo(tipo.clave)" title="Eliminar archivo">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+
+          <!-- Sin archivo: mostrar input -->
+          <div class="doc-archivo" *ngIf="!archivosSubidos[tipo.clave]">
+            <label class="btn-seleccionar-archivo" [class.subiendo]="subiendoArchivo[tipo.clave]">
+              <mat-icon>upload_file</mat-icon>
+              <span *ngIf="!subiendoArchivo[tipo.clave]">Seleccionar archivo</span>
+              <span *ngIf="subiendoArchivo[tipo.clave]">Subiendo...</span>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                (change)="onArchivoSeleccionado($event, tipo.clave)"
+                [disabled]="subiendoArchivo[tipo.clave]"
+                hidden
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido: WHATSAPP -->
+  <div class="panel-body placeholder-tab" *ngIf="tabActiva === 'whatsapp'">
+    <mat-icon style="font-size:48px;width:48px;height:48px;color:#25D366;">chat</mat-icon>
+    <p>Enviar mensaje de WhatsApp a<br><strong>{{ candidato.nombre }}</strong></p>
+    <span class="dato-valor">{{ candidato.telefono || 'Sin teléfono registrado' }}</span>
+  </div>
+
+  <!-- Contenido: EMAIL -->
+  <div class="panel-body placeholder-tab" *ngIf="tabActiva === 'email'">
+    <mat-icon style="font-size:48px;width:48px;height:48px;color:#1976d2;">email</mat-icon>
+    <p>Enviar correo a<br><strong>{{ candidato.nombre }}</strong></p>
+    <span class="dato-valor">{{ candidato.email || 'Sin email registrado' }}</span>
+  </div>
+
+</aside>

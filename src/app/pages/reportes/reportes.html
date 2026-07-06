@@ -1,0 +1,27 @@
+<div class="page-layout" [ngClass]="{ 'sidebar-collapsed': sidebarColapsado }">
+
+  <app-sidebar
+    [colapsado]="sidebarColapsado"
+    [usuario]="usuarioActual"
+    (alCambiarToggle)="toggleSidebar()"
+    (alCerrarSesion)="cerrarSesion()">
+  </app-sidebar>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div class="header-left">
+        <div class="header-icon-box"><mat-icon>insert_chart</mat-icon></div>
+        <div>
+          <h1 class="page-title">Reportes</h1>
+          <p class="page-subtitle">Generación y exportación de reportes de reclutamiento</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="placeholder-card">
+      <mat-icon class="placeholder-icon">construction</mat-icon>
+      <h2>Próximamente</h2>
+      <p>Esta sección permitirá generar y exportar reportes del proceso de selección.</p>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,113 @@
+<div class="dialog-header">
+  <div class="dialog-header-icon"><mat-icon>person_add</mat-icon></div>
+  <div class="dialog-title-block">
+    <h2>Alta de Usuario</h2>
+    <p>Registra un nuevo usuario en el sistema</p>
+  </div>
+</div>
+
+<div class="dialog-divider"></div>
+
+<div class="dialog-body">
+
+  <!-- Datos personales -->
+  <p class="section-label">Datos personales</p>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre(s)</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.first_name" (input)="generarUsername()" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.last_name" (input)="generarUsername()" required>
+    </mat-form-field>
+  </div>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Puesto en Unidad/Sucursal</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.puesto_empresa">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [class.campo-error]="errorNumeroEmpleado">
+      <mat-label>Número de Empleado</mat-label>
+      <input matInput type="text" [(ngModel)]="nuevoUsuario.numero_empleado" (focus)="errorNumeroEmpleado = false" maxlength="6" pattern="[0-9]*">
+      <mat-icon matSuffix *ngIf="errorNumeroEmpleado" class="icon-error">error</mat-icon>
+      <mat-hint>Máximo 6 dígitos</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- Credenciales de acceso -->
+  <p class="section-label">Credenciales de acceso</p>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline" [class.campo-error]="errorUsername">
+      <mat-label>Nombre de usuario</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.username" (focus)="errorUsername = false" required>
+      <mat-icon matSuffix *ngIf="errorUsername" class="icon-error">error</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [class.campo-error]="(emailTocado && !emailValido) || errorEmail">
+      <mat-label>Correo Empresarial</mat-label>
+      <input matInput type="email" [(ngModel)]="nuevoUsuario.email" (blur)="validarEmail()" (focus)="errorEmail = false" required>
+      <mat-icon matSuffix *ngIf="emailTocado && emailValido && !errorEmail" class="icon-ok">check_circle</mat-icon>
+      <mat-icon matSuffix *ngIf="(emailTocado && !emailValido) || errorEmail" class="icon-error">error</mat-icon>
+    </mat-form-field>
+  </div>
+  <span class="hint-error" *ngIf="emailTocado && !emailValido">Ingresa un correo válido</span>
+
+  <div class="form-row">
+    <mat-form-field appearance="outline" [class.campo-error]="errorPassword">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="nuevoUsuario.password" (focus)="errorPassword = false" required>
+      <mat-icon matSuffix *ngIf="errorPassword" class="icon-error">error</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [class.campo-error]="confirmTocado && !passwordsCoinciden">
+      <mat-label>Confirmar contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="confirmarPassword" (blur)="validarConfirmPassword()" required>
+    </mat-form-field>
+  </div>
+  <span class="hint-error" *ngIf="confirmTocado && !passwordsCoinciden">Las contraseñas no coinciden</span>
+
+  <!-- Rol y segmentación -->
+  <p class="section-label">Rol y alcance</p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de rol</mat-label>
+    <mat-select [(ngModel)]="nuevoUsuario.rol" (selectionChange)="onRolChange()">
+      <mat-option value="admin_general">Administrador General</mat-option>
+      <mat-option value="admin_unidad">Administrador de Unidad de Negocio</mat-option>
+      <mat-option value="admin_sucursal">Administrador de Sucursal</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="nuevoUsuario.rol === 'admin_unidad' || nuevoUsuario.rol === 'admin_sucursal'">
+    <mat-label>Unidad de Negocio</mat-label>
+    <mat-select [(ngModel)]="nuevoUsuario.unidad_negocio" (selectionChange)="onUnidadChange()" required>
+      <mat-option *ngFor="let unidad of listaUnidades" [value]="unidad.id">
+        {{ unidad.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="nuevoUsuario.rol === 'admin_sucursal' && nuevoUsuario.unidad_negocio">
+    <mat-label>Sucursal</mat-label>
+    <mat-select [(ngModel)]="nuevoUsuario.sucursal" required>
+      <mat-option *ngFor="let suc of sucursalesFiltradas" [value]="suc.id">
+        {{ suc.nombre_sucursal }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+
+<div class="dialog-actions">
+  <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+  <button class="btn-guardar" (click)="guardar()" [disabled]="!formValido() || guardando">
+    <mat-icon>save</mat-icon>
+    {{ guardando ? 'Guardando...' : 'Crear Usuario' }}
+  </button>
+</div>
