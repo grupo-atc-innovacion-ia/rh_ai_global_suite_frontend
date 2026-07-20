@@ -35,6 +35,14 @@
     </mat-select>
   </mat-form-field>
 
+    <mat-form-field appearance="outline">
+    <mat-label>Perfil Pyxomm</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">public</mat-icon>
+    <mat-select [(ngModel)]="nuevaVacante.bolsa_de_trabajo">
+      <mat-option value="por-definir">Por definir</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <p class="section-label">Configuración de correo y automatización</p>
 
   <mat-form-field appearance="outline">
