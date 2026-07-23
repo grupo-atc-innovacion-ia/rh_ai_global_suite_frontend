@@ -36,10 +36,11 @@
   </mat-form-field>
 
     <mat-form-field appearance="outline">
-    <mat-label>Perfil Pyxomm</mat-label>
-    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">public</mat-icon>
-    <mat-select [(ngModel)]="nuevaVacante.bolsa_de_trabajo">
-      <mat-option value="por-definir">Por definir</mat-option>
+    <mat-label>Perfil Pyxoom</mat-label>
+    <mat-icon matPrefix style="margin-right:6px;color:#8c8c8c;font-size:18px;width:18px;height:18px;">account_tree</mat-icon>
+    <mat-select [(ngModel)]="nuevaVacante.perfil_pyxoom" [disabled]="cargandoPerfiles">
+      <mat-option value="">{{ cargandoPerfiles ? 'Cargando perfiles...' : 'Sin perfil asignado' }}</mat-option>
+      <mat-option *ngFor="let perfil of listaPerfilesPyxoom" [value]="perfil.id">{{ perfil.text }}</mat-option>
     </mat-select>
   </mat-form-field>
 

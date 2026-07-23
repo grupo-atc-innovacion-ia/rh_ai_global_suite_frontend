@@ -79,10 +79,10 @@ const CHECKLIST_CONFIG: Record<string, { titulo: string; checks: { clave: string
     ]
   },
   paso2: {
-    titulo: 'Paso 2 · Psicométricos (Pyxxom)',
+    titulo: 'Paso 2 · Psicométricos (Pyxoom)',
     checks: [
-      { clave: 'contesto_pyxxom', label: '¿Contestó el Pyxxom?' },
-      { clave: 'aprobo_pyxxom', label: '¿Aprobó el Pyxxom?' },
+      { clave: 'contesto_pyxoom', label: '¿Contestó el Pyxoom?' },
+      { clave: 'aprobo_pyxoom', label: '¿Aprobó el Pyxoom?' },
     ]
   },
   paso3: {
@@ -188,7 +188,7 @@ export class ActualizarCandidatoDialogComponent {
 
   /** Dependencias intrafase: padre desactivado → hijos desactivados */
   private dependencias: Record<string, Record<string, string[]>> = {
-    paso2: { contesto_pyxxom: ['aprobo_pyxxom'] },
+    paso2: { contesto_pyxoom: ['aprobo_pyxoom'] },
     paso3: { entrevista_agendada: ['aprobo_entrevista'] },
     paso4: { agendo_poligrafo: ['aprobo_poligrafo'] },
     paso5: { agendo_hogan: ['aprobo_hogan'] },
@@ -356,6 +356,7 @@ interface CandidatoAPI {
   no_negociables_candidato: string[] | Record<string, any>;
   notas: { texto: string; porcentaje: number | null; fecha: string }[];
   checklist_fase: { id: number; fase: string; clave: string; valor: boolean; fecha_actualizacion: string }[];
+  pyxoom_person_process_id?: string | null;
 }
 
 /** Forma que usa el template del Kanban */
@@ -378,6 +379,7 @@ interface Candidato {
   vacanteId?: number;
   faseActual?: string;
   checklistFase?: { id: number; fase: string; clave: string; valor: boolean; fecha_actualizacion: string }[];
+  pyxoomPersonProcessId?: string;
 }
 
 interface Columna { id: string; titulo: string; icono: string; clasePaso: string; candidatos: Candidato[]; }
@@ -605,6 +607,7 @@ export class DashboardComponent implements OnInit {
       vacanteId:        c.vacante,
       faseActual:       c.fase_kanban,
       checklistFase:    Array.isArray(c.checklist_fase) ? c.checklist_fase : [],
+      pyxoomPersonProcessId: c.pyxoom_person_process_id ?? undefined,
     };
   }
 
@@ -741,12 +744,12 @@ export class DashboardComponent implements OnInit {
           return item && !item.valor;
         }
         // Paso 2
-        case 'no_aprobo_pyxxom': {
-          const item = checklist.find(x => x.fase === 'paso2' && x.clave === 'aprobo_pyxxom');
+        case 'no_aprobo_pyxoom': {
+          const item = checklist.find(x => x.fase === 'paso2' && x.clave === 'aprobo_pyxoom');
           return item && !item.valor;
         }
-        case 'no_contesto_pyxxom': {
-          const item = checklist.find(x => x.fase === 'paso2' && x.clave === 'contesto_pyxxom');
+        case 'no_contesto_pyxoom': {
+          const item = checklist.find(x => x.fase === 'paso2' && x.clave === 'contesto_pyxoom');
           return !item || !item.valor;
         }
         // Paso 3

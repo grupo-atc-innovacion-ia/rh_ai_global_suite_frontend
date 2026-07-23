@@ -28,12 +28,15 @@ export class ModalAltaVacanteComponent implements OnInit {
     titulo: '',
     sucursal: null as number | null,
     bolsa_de_trabajo: 'linkedin',
+    perfil_pyxoom: '' as string,
     titulo_exacto_correo: '',
     descripcion_vacante: '',
     prompt_vacante: '',
     no_negociables_requisitos: [] as string[]
   };
   listaSucursales: any[] = [];
+  listaPerfilesPyxoom: { id: string; text: string; code: string }[] = [];
+  cargandoPerfiles = false;
   tagInput = '';
   guardando = false;
 
@@ -57,6 +60,27 @@ export class ModalAltaVacanteComponent implements OnInit {
         }
       },
       error: (err) => console.error('Error cargando sucursales:', err)
+    });
+
+    // Cargar perfiles de Pyxoom
+    this.cargarPerfilesPyxoom(headers);
+  }
+
+  cargarPerfilesPyxoom(headers?: HttpHeaders): void {
+    if (!headers) {
+      const token = localStorage.getItem('auth_token') || '';
+      headers = new HttpHeaders().set('Authorization', `Token ${token}`);
+    }
+    this.cargandoPerfiles = true;
+    this.http.get<any>('http://localhost:8000/api/integrations/pyxoom/JobPositionList/', { headers }).subscribe({
+      next: (response) => {
+        this.listaPerfilesPyxoom = response?.resultados ?? [];
+        this.cargandoPerfiles = false;
+      },
+      error: (err) => {
+        console.error('Error cargando perfiles Pyxoom:', err);
+        this.cargandoPerfiles = false;
+      }
     });
   }
 
@@ -92,6 +116,7 @@ export class ModalAltaVacanteComponent implements OnInit {
       titulo: this.nuevaVacante.titulo,
       sucursal: this.nuevaVacante.sucursal,
       bolsa_de_trabajo: String(this.nuevaVacante.bolsa_de_trabajo || 'occ').toLowerCase(),
+      perfil_pyxoom: this.nuevaVacante.perfil_pyxoom || '',
       titulo_exacto_correo: this.nuevaVacante.titulo_exacto_correo || '',
       descripcion_vacante: this.nuevaVacante.descripcion_vacante || '',
       prompt_calificador_ia: this.nuevaVacante.prompt_vacante || '',

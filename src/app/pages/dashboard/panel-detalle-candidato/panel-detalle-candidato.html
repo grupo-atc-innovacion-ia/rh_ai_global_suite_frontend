@@ -11,17 +11,20 @@
 
   <!-- Tabs -->
   <div class="panel-tabs">
-    <button class="panel-tab" [class.active]="tabActiva === 'detalles'" (click)="setTab('detalles')">
-      <mat-icon>info</mat-icon> Detalles
+    <button class="panel-tab" [class.active]="tabActiva === 'detalles'" (click)="setTab('detalles')" title="Detalles">
+      <mat-icon>info</mat-icon> <span class="tab-label" *ngIf="tabActiva === 'detalles'">Detalles</span>
     </button>
-    <button class="panel-tab" [class.active]="tabActiva === 'documentacion'" (click)="setTab('documentacion')">
-      <mat-icon>folder_open</mat-icon> Documentación
+    <button class="panel-tab" [class.active]="tabActiva === 'resultados_tests'" (click)="setTab('resultados_tests')" title="Resultados Tests">
+      <mat-icon>psychology </mat-icon> <span class="tab-label" *ngIf="tabActiva === 'resultados_tests'">Tests</span>
     </button>
-    <button class="panel-tab" [class.active]="tabActiva === 'whatsapp'" (click)="setTab('whatsapp')">
-      <mat-icon>chat</mat-icon> WhatsApp
+    <button class="panel-tab" [class.active]="tabActiva === 'documentacion'" (click)="setTab('documentacion')" title="Documentación">
+      <mat-icon>folder_open</mat-icon> <span class="tab-label" *ngIf="tabActiva === 'documentacion'">Docs</span>
     </button>
-    <button class="panel-tab" [class.active]="tabActiva === 'email'" (click)="setTab('email')">
-      <mat-icon>email</mat-icon> Email
+    <button class="panel-tab" [class.active]="tabActiva === 'whatsapp'" (click)="setTab('whatsapp')" title="WhatsApp">
+      <mat-icon>chat</mat-icon> <span class="tab-label" *ngIf="tabActiva === 'whatsapp'">WhatsApp</span>
+    </button>
+    <button class="panel-tab" [class.active]="tabActiva === 'email'" (click)="setTab('email')" title="Email">
+      <mat-icon>email</mat-icon> <span class="tab-label" *ngIf="tabActiva === 'email'">Email</span>
     </button>
   </div>
 
@@ -156,6 +159,40 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Contenido: RESULTADOS TESTS -->
+  <div class="panel-body" *ngIf="tabActiva === 'resultados_tests'">
+    <div class="tests-section">
+      <h3 class="tests-titulo">Evaluaciones Psicométricas</h3>
+
+      <div class="tests-lista">
+        <!-- Reporte Psicométrico Pyxoom -->
+        <div class="test-row">
+          <div class="test-info">
+            <mat-icon class="test-icon">assessment</mat-icon>
+            <div>
+              <span class="test-nombre">Reporte Psicométrico Pyxoom</span>
+              <span class="test-meta" *ngIf="candidato.pyxoomPersonProcessId">ID Pyxoom: {{ candidato.pyxoomPersonProcessId }}</span>
+              <span class="test-meta test-sin-id" *ngIf="!candidato.pyxoomPersonProcessId">Sin ID de Pyxoom asignado</span>
+            </div>
+          </div>
+          <button
+            class="btn-ver-pdf"
+            (click)="verReportePsicometrico()"
+            [disabled]="!candidato.pyxoomPersonProcessId || cargandoReporte">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <span *ngIf="!cargandoReporte">Ver PDF</span>
+            <span *ngIf="cargandoReporte">Cargando...</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tests-empty" *ngIf="!candidato.pyxoomPersonProcessId">
+        <mat-icon>info_outline</mat-icon>
+        <span>Asigna un ID de Pyxoom al candidato para consultar sus resultados.</span>
+      </div>
+    </div>
   </div>
 
   <!-- Contenido: DOCUMENTACIÓN -->

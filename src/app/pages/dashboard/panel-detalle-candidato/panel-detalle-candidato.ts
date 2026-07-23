@@ -24,6 +24,7 @@ interface Candidato {
   vacanteId?: number;
   faseActual?: string;
   checklistFase?: { id: number; fase: string; clave: string; valor: boolean; fecha_actualizacion: string }[];
+  pyxoomPersonProcessId?: string;
 }
 
 @Component({
@@ -43,7 +44,7 @@ export class PanelDetalleCandidatoComponent implements OnChanges {
   @Output() cerrar = new EventEmitter<void>();
   @Output() scoreActualizado = new EventEmitter<{ candidatoId: number; nuevoScore: number }>();
 
-  tabActiva: 'detalles' | 'documentacion' | 'whatsapp' | 'email' = 'detalles';
+  tabActiva: 'detalles' | 'documentacion' | 'resultados_tests' | 'whatsapp' | 'email' = 'detalles';
   notaTexto = '';
   notaPorcentaje: number | null = null;
   guardandoNota = false;
@@ -62,6 +63,9 @@ export class PanelDetalleCandidatoComponent implements OnChanges {
   archivosSeleccionados: Record<string, File | null> = {};
   archivosSubidos: Record<string, { nombre: string; url: string } | null> = {};
   subiendoArchivo: Record<string, boolean> = {};
+
+  // Resultados Tests
+  cargandoReporte = false;
 
   constructor(
     private http: HttpClient,
@@ -83,7 +87,7 @@ export class PanelDetalleCandidatoComponent implements OnChanges {
     }
   }
 
-  setTab(tab: 'detalles' | 'documentacion' | 'whatsapp' | 'email'): void {
+  setTab(tab: 'detalles' | 'documentacion' | 'resultados_tests' | 'whatsapp' | 'email'): void {
     this.tabActiva = tab;
     if (tab === 'documentacion') {
       this.cargarArchivos();
@@ -267,6 +271,31 @@ export class PanelDetalleCandidatoComponent implements OnChanges {
         this.archivosSeleccionados[tipoDoc] = null;
       },
       error: (err) => console.error('Error eliminando archivo:', err)
+    });
+  }
+
+  // ─── RESULTADOS TESTS ─────────────────────────────────────────────────
+
+  verReportePsicometrico(): void {
+    if (!this.candidato?.pyxoomPersonProcessId) return;
+
+    this.cargandoReporte = true;
+    const token = localStorage.getItem('auth_token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Token ${token}`);
+
+    this.http.get(
+      `http://localhost:8000/api/integrations/pyxoom/ReportPsychometry/?personProcessId=${this.candidato.pyxoomPersonProcessId}`,
+      { headers, responseType: 'blob' }
+    ).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        this.cargandoReporte = false;
+      },
+      error: (err) => {
+        console.error('Error obteniendo reporte psicométrico:', err);
+        this.cargandoReporte = false;
+      }
     });
   }
 }
